@@ -1625,6 +1625,7 @@ const state = {
   lessonListOpen: localStorage.getItem("investmentCourse.lessonListOpen") === "true",
   activeTool: "cashflow",
   completed: completedState,
+  quizScores: JSON.parse(localStorage.getItem("investmentCourse.quizScores") || "{}"),
   calculators: loadCalculatorState()
 };
 
@@ -1646,10 +1647,12 @@ const toolContent = document.querySelector("#toolContent");
 
 function saveState() {
   localStorage.setItem("investmentCourse.completed", JSON.stringify(state.completed));
+  localStorage.setItem("investmentCourse.quizScores", JSON.stringify(state.quizScores));
   localStorage.setItem("investmentCourse.activeLessonId", state.activeLessonId);
   localStorage.setItem("investmentCourse.currentLessonId", state.currentLessonId);
   localStorage.setItem("investmentCourse.lessonListOpen", String(state.lessonListOpen));
   localStorage.setItem("investmentCourse.calculators", JSON.stringify(state.calculators));
+  window.InvestmentCourseSync?.scheduleSave?.();
 }
 
 function getActiveLesson() {
@@ -1658,6 +1661,45 @@ function getActiveLesson() {
 
 function getCurrentLesson() {
   return lessons.find((lesson) => lesson.id === state.currentLessonId) || lessons[0];
+}
+
+function getValidLessonId(value, fallback) {
+  return lessons.some((lesson) => lesson.id === value) ? value : fallback;
+}
+
+function getSyncSnapshot({ includeCalculators = false } = {}) {
+  return {
+    activeLessonId: state.activeLessonId,
+    currentLessonId: state.currentLessonId,
+    lessonListOpen: state.lessonListOpen,
+    completed: { ...state.completed },
+    quizScores: { ...state.quizScores },
+    calculators: includeCalculators ? JSON.parse(JSON.stringify(state.calculators)) : undefined,
+    updatedAt: new Date().toISOString()
+  };
+}
+
+function applySyncSnapshot(snapshot) {
+  if (!snapshot) return;
+  state.activeLessonId = getValidLessonId(snapshot.activeLessonId, state.activeLessonId);
+  state.currentLessonId = getValidLessonId(snapshot.currentLessonId, state.currentLessonId);
+  state.lessonListOpen = Boolean(snapshot.lessonListOpen);
+  state.completed = snapshot.completed && typeof snapshot.completed === "object" ? snapshot.completed : {};
+  state.quizScores = snapshot.quizScores && typeof snapshot.quizScores === "object" ? snapshot.quizScores : {};
+  if (snapshot.calculators && typeof snapshot.calculators === "object") {
+    state.calculators = {
+      cashflow: { ...calculatorDefaults.cashflow, ...snapshot.calculators.cashflow },
+      emergency: { ...calculatorDefaults.emergency, ...snapshot.calculators.emergency },
+      drawdown: { ...calculatorDefaults.drawdown, ...snapshot.calculators.drawdown }
+    };
+  }
+  localStorage.setItem("investmentCourse.completed", JSON.stringify(state.completed));
+  localStorage.setItem("investmentCourse.quizScores", JSON.stringify(state.quizScores));
+  localStorage.setItem("investmentCourse.activeLessonId", state.activeLessonId);
+  localStorage.setItem("investmentCourse.currentLessonId", state.currentLessonId);
+  localStorage.setItem("investmentCourse.lessonListOpen", String(state.lessonListOpen));
+  localStorage.setItem("investmentCourse.calculators", JSON.stringify(state.calculators));
+  render();
 }
 
 function escapeHtml(value) {
@@ -1937,6 +1979,13 @@ function bindQuizButtons() {
       answered < lesson.quiz.length
         ? `已完成 ${answered}/${lesson.quiz.length} 题，当前得分 ${score}/${lesson.quiz.length}。`
         : `得分 ${score}/${lesson.quiz.length}。${score === lesson.quiz.length ? "本节核心判断已经掌握。" : "建议显示答案后复盘错误题。"} `;
+    state.quizScores[lesson.id] = {
+      score,
+      total: lesson.quiz.length,
+      answered,
+      updatedAt: new Date().toISOString()
+    };
+    saveState();
   });
 
   answerButton.addEventListener("click", () => {
@@ -2160,4 +2209,10 @@ function render() {
   renderTool();
 }
 
+window.InvestmentCourse = {
+  getSyncSnapshot,
+  applySyncSnapshot
+};
+
 render();
+window.InvestmentCourseSync?.init?.();

@@ -703,6 +703,108 @@ button {
   font-size: 13px;
 }
 
+.sync-panel {
+  display: grid;
+  gap: 10px;
+}
+
+.sync-panel p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.sync-status {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 28px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.sync-muted {
+  background: var(--surface-strong);
+  color: var(--muted);
+}
+
+.sync-ok {
+  background: var(--ok-soft);
+  color: var(--ok);
+}
+
+.sync-form {
+  display: grid;
+  gap: 8px;
+}
+
+.sync-form label,
+.sync-checkbox {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.sync-form input {
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.sync-checkbox {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 8px;
+  align-items: start;
+}
+
+.sync-checkbox input {
+  margin-top: 3px;
+  accent-color: var(--accent);
+}
+
+.sync-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.sync-actions .secondary-button {
+  min-width: 0;
+  padding: 7px 8px;
+  font-size: 12px;
+}
+
+.sync-user,
+.sync-note,
+.sync-meta {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.sync-message {
+  padding: 10px;
+  border-radius: 8px;
+  background: var(--ok-soft);
+  color: var(--ok);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.sync-error {
+  padding: 10px;
+  border-radius: 8px;
+  background: var(--warn-soft);
+  color: var(--warn);
+  font-size: 12px;
+}
+
 .small-note {
   color: var(--muted);
   font-size: 13px;
