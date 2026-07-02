@@ -1,5 +1,4 @@
 window.INVESTMENT_COURSE_SUPABASE = {
-  url: "",
-  anonKey: ""
+  url: "https://qzbfpjfigbsgtcwppvut.supabase.co",
+  anonKey: "sb_publishable_ltaNA7nnVozoSCOcZIjg"
 };
-

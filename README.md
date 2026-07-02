@@ -35,7 +35,7 @@ python3 -m http.server 8765
 1. 创建 Supabase 项目。
 2. 在 Supabase SQL Editor 中执行 `supabase-schema.sql`。
 3. 复制 `supabase-config.example.js` 为 `supabase-config.js`。
-4. 在 `supabase-config.js` 中填入项目 URL 和 anon key。
+4. 在 `supabase-config.js` 中填入项目 URL 和 publishable/anon public key。
 5. 在 Supabase Auth URL Configuration 中加入 GitHub Pages 地址和本地测试地址：
 
 ```text
@@ -44,6 +44,6 @@ http://127.0.0.1:8765/
 http://localhost:8765/
 ```
 
-anon key 是前端公开 key；进度表通过 Row Level Security 限制为用户只能读写自己的记录。
+publishable/anon public key 是前端公开 key；进度表通过 Row Level Security 限制为用户只能读写自己的记录。
 
 6. 提交并推送更新。
