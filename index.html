@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>投资基础交互课程</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23126b75'/%3E%3Cpath d='M18 42h28v6H18zM20 34h8v6h-8zM30 26h8v14h-8zM40 18h8v22h-8z' fill='white'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="课程导航">
+        <div class="brand-block">
+          <h1>投资基础</h1>
+          <p>正式入门课程 · Day 1-14</p>
+        </div>
+
+        <div class="current-panel">
+          <p class="panel-label">当前学习</p>
+          <div id="currentSummary" class="current-summary"></div>
+        </div>
+
+        <section class="lesson-picker" aria-label="课程目录">
+          <button class="lesson-picker-toggle" type="button" id="lessonPickerToggle" aria-expanded="false" aria-controls="lessonNavWrap">
+            <span>
+              <strong>课程目录</strong>
+              <small id="lessonPickerMeta">Day 选择</small>
+            </span>
+            <span class="toggle-icon" aria-hidden="true"></span>
+          </button>
+          <div class="lesson-nav-wrap" id="lessonNavWrap">
+            <nav class="lesson-nav" id="lessonNav"></nav>
+          </div>
+        </section>
+
+        <div class="search-panel">
+          <label for="lessonSearch" class="panel-label">检索复习</label>
+          <input id="lessonSearch" class="search-input" type="search" placeholder="Day 2、应急金、liquidez">
+          <div id="searchResults" class="search-results" aria-live="polite"></div>
+        </div>
+
+        <div class="progress-panel">
+          <div class="progress-head">
+            <span>总进度</span>
+            <strong id="progressText">0/3</strong>
+          </div>
+          <div class="progress-bar" aria-hidden="true">
+            <div id="progressFill"></div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main-area">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Weeks 1-2 · Foundation & Risk</p>
+            <h2 id="lessonTitle">课程加载中</h2>
+          </div>
+          <div class="topbar-actions">
+            <button class="current-button" type="button" id="setCurrentButton">设为当前</button>
+            <label class="complete-toggle">
+              <input type="checkbox" id="completeToggle">
+              <span>标记完成</span>
+            </label>
+          </div>
+        </header>
+
+        <section class="layout-grid">
+          <article class="lesson-panel" id="lessonContent" aria-live="polite"></article>
+
+          <aside class="tool-panel" aria-label="交互工具">
+            <section class="tool-section">
+              <h3>课程工具</h3>
+              <div class="segmented-control" role="tablist" aria-label="工具切换">
+                <button class="tool-tab active" type="button" data-tool="cashflow" role="tab">现金流</button>
+                <button class="tool-tab" type="button" data-tool="emergency" role="tab">应急金</button>
+                <button class="tool-tab" type="button" data-tool="drawdown" role="tab">亏损回本</button>
+              </div>
+              <div id="toolContent"></div>
+            </section>
+
+            <section class="tool-section">
+              <h3>西班牙语词汇</h3>
+              <div id="vocabList" class="vocab-list"></div>
+            </section>
+          </aside>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
